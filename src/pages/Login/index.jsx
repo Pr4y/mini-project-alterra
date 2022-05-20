@@ -1,18 +1,17 @@
 import React, { useState, useEffect} from "react";
-import { gql, useLazyQuery } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from 'universal-cookie'
 import { GetUserByUsername } from "../../GraphQL/User";
 
 import Navbar from "../../components/Navbar";
-import Swal from "sweetalert2";
 
 
 const Login = () => {
   const navigate = useNavigate()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [getUser, { data, loading, error }] = useLazyQuery(GetUserByUsername,{
+  const [getUser, { data, loading }] = useLazyQuery(GetUserByUsername,{
     onCompleted:(data) => {
     const token = JSON.stringify({
       id: data.users[0].id,
@@ -20,13 +19,12 @@ const Login = () => {
     })
     localStorage.setItem('Token', token)
   } })
-  console.log(data)
   const [errorMsg, setErrorMsg] = useState('')
   const [errorMsgPW, setErrorMsgPW] = useState('')
   const cookies = new Cookies()
 
   useEffect(() => {
-    setErrorMsg(errorMsg)
+
     if (data?.users.length === 1) {
       cookies.set('users', true, { path: '/' })
       navigate('/app')
@@ -39,10 +37,9 @@ const Login = () => {
         _eq1: password
       }
     })
-    if (await data?.auth.username != username && data?.auth.username != password) {
+    if (await data?.auth.username !== username && data?.auth.password !== password) {
       setErrorMsg('Username tidak sesuai!')
-            setErrorMsgPW('Password Salah!')
-            console.log(errorMsg)
+      setErrorMsgPW('Password Salah!')
   }
   }
   if (loading) {

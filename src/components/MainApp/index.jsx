@@ -1,6 +1,5 @@
 import React, { useState, useRef } from "react";
 import ReactToPrint from "react-to-print";
-import { exportComponentAsPDF, exportComponentAsPNG } from "react-component-export-image";
 
 
 // Components---------------------------
