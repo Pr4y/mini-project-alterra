@@ -10,6 +10,7 @@ import Login from "./pages/Login";
 import PrivateRoute from './PrivateRoute';
 import LogOut from "./components/LogOut";
 import About from "./pages/About";
+import NotFound from "./pages/NotFound";
 
 
 
@@ -25,6 +26,7 @@ const App = () => {
         <Route path='/register' element={<Register/>}></Route>
         <Route path='/login' element={<Login/>}></Route>
         <Route path='/log-out' element={<LogOut/>}></Route>
+        <Route path="*" element={<NotFound />} />
     </Routes>
     
    );
