@@ -39,12 +39,10 @@ const Login = () => {
         _eq1: password
       }
     })
-    if (await data?.auth.username !== username && data?.auth.password !== password) {
-      Swal.fire(
-        "Login Gagal!",
-        "Username atau password tidak valid.",
-        "error"
-    );
+    if (await data?.auth.username != username && data?.auth.username != password) {
+      setErrorMsg('Username tidak sesuai!')
+            setErrorMsgPW('Password Salah!')
+            console.log(errorMsg)
   }
   }
   if (loading) {
@@ -134,14 +132,14 @@ const handleChangePassword = (e) => {
                   "
                   placeholder="Enter your username"
                 />
+                <div>{errorMsg}</div>
               </div>
             </div>
             <div className="flex flex-col mb-6">
               <label
                 htmlFor="password"
                 className="mb-1 text-xs sm:text-sm tracking-wide text-gray-600"
-                >Password:</label
-              >
+                >Password: </label>
               <div className="relative">
                 <div
                   className="
@@ -179,6 +177,7 @@ const handleChangePassword = (e) => {
                   "
                   placeholder="Enter your password"
                 />
+                 <div>{errorMsgPW}</div>
               </div>
             </div>
 

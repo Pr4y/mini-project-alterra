@@ -17,6 +17,8 @@ function TableForm({description,
   total, 
   setTotal}) {
 
+    const [isEditItem, setIsEditItem] = useState(false)
+
     const hanldeSubmit = (e) => {
         e.preventDefault()
 
@@ -41,7 +43,7 @@ function TableForm({description,
       }
 
 
-    // Multiply ammount of items
+    // Multiply amount of items
     useEffect(() => {
         const multiplyAmount = (amount) => {
             setAmount(quantity * price)
@@ -49,7 +51,7 @@ function TableForm({description,
         multiplyAmount(amount)
     }, [amount, price, quantity, setAmount])
 
-    //total amount of all
+    //total amount of all items
     useEffect(() => {
       let rows = document.querySelectorAll(".amount")
       let sum = 0
@@ -62,11 +64,8 @@ function TableForm({description,
       }
     })
 
-    // handle delete
-    const handleDeleteItem = (id) => setList(list.filter((item) => item.id !== id))
-
     //handle edit
-    const [isEditItem, setIsEditItem] = useState(false)
+  
 
     const handleEditItem = (id) => {
       const editingItem = list.find((item) => item.id === id)
@@ -77,43 +76,47 @@ function TableForm({description,
       setPrice(editingItem.price)
     }
 
+    // handle delete
+    const handleDeleteItem = (id) => setList(list.filter((item) => item.id !== id))
+
+
   return (
       <>
    <form onSubmit={hanldeSubmit}>
        <div className='flex flex-col mt-10'>
         <label htmlFor="description">Item Description</label>
         <input type="text" 
-        name='description' 
-        id='description' 
-        placeholder='Item Description' 
-        value={description} 
-        onChange={(e) => setDescription(e.target.value)} />
+          name='description' 
+          id='description' 
+          placeholder='Item Description' 
+          value={description} 
+          onChange={(e) => setDescription(e.target.value)} />
         </div>
 
         <div className='md:grid grid-cols-3 gap-10'>
         <div className='flex flex-col'>
         <label htmlFor="description">Quantity</label>
         <input type="text" 
-        name='quanity' 
-        id='quantity' 
-        placeholder='Quantity' 
-        value={quantity} 
-        onChange={(e) => setQuantity(e.target.value)} />
+          name='quanity' 
+          id='quantity' 
+          placeholder='Quantity' 
+          value={quantity} 
+          onChange={(e) => setQuantity(e.target.value)} />
         </div>
 
         <div className='flex flex-col'>
         <label htmlFor="price">Price</label>
         <input type="text" 
-        name='price' 
-        id='price' 
-        placeholder='Item Price' 
-        value={price} 
-        onChange={(e) => setPrice(e.target.value)} />
+          name='price' 
+          id='price' 
+          placeholder='Item Price' 
+          value={price} 
+          onChange={(e) => setPrice(e.target.value)} />
         </div>
 
         <div className='flex flex-col'>
-        <label htmlFor="ammount">Amount</label>
-        <p>{amount}</p>
+          <label htmlFor="amount">Amount</label>
+          <p>{amount}</p>
         </div>
         </div>
         <button type="submit" className="mb-10 mt-3 bg-blue-500 

@@ -249,7 +249,6 @@ const MainApp = () => {
             <ReactToPrint 
                 trigger={() => <button className="bg-blue-500 text-white ml-5 font-bold py-2 px-8 rounded shadow border-2 border-blue-500 hover:bg-transparent hover:text-blue-500 transition-all duration-300">Print</button>}
                 content={() => componentRef.current}/>
-            <button className="bg-blue-500 text-white ml-5 font-bold py-2 px-8 rounded shadow border-2 border-blue-500 hover:bg-transparent hover:text-blue-500 transition-all duration-300" onClick={() => exportComponentAsPNG(componentRef)}>Export As PDF</button>
             <div ref={componentRef} className="p-5"> 
                 <Header/>
 
