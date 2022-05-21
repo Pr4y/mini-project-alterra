@@ -15,9 +15,10 @@ function TableForm({description,
   list, 
   setList, 
   total, 
-  setTotal}) {
+  setTotal, discount, setDiscount, afterDiscount, setAfterDiscount, discountNominal, setDiscountNominal}) {
 
     const [isEditItem, setIsEditItem] = useState(false)
+    
 
     const hanldeSubmit = (e) => {
         e.preventDefault()
@@ -64,9 +65,23 @@ function TableForm({description,
       }
     })
 
-    //handle edit
-  
+    //price after discount
+    useEffect(() => {
+      const priceAfterDiscount = () => {
+        setAfterDiscount(total * (100 - discount) / 100)
+      }
+      priceAfterDiscount(afterDiscount)
+    }, [total, setTotal, discount, setDiscount, afterDiscount])
 
+    //discountNominal
+    useEffect(() => {
+      const discNom = () => {
+        setDiscountNominal(total * discount / 100)
+      } 
+      discNom(discountNominal)
+    }, [discountNominal, total, setTotal, discount, setDiscount])
+
+    //handle edit
     const handleEditItem = (id) => {
       const editingItem = list.find((item) => item.id === id)
       setList(list.filter((item) => item.id !== id))
@@ -157,10 +172,21 @@ function TableForm({description,
         ))}
        </table>
        <div>
-        <h2 className="flex items-end justify-end text-gray-800 text-4xl font-bold">
+         <p className='flex items-end justify-end font-semibold text-gray-800'>Subtotal :</p>
+        <h2 className="flex items-end justify-end text-gray-800 text-lg font-bold">
           Rp. {total.toLocaleString()}
         </h2>
+        <p className='flex items-end justify-end mb-5 italic text-gray-400'>(Before Discount)</p>
       </div>
+      <div>
+      <label htmlFor="discount">Discount? </label>
+        <input type="text" name='discount' id='discount' value={discount} onChange={(e) => setDiscount(e.target.value)} placeholder="Leave empty if not discount" /> %
+        <p className='italic text-gray-400 text-sm'>Worth of : Rp. {discountNominal.toLocaleString()}</p>
+      </div>
+      <p className='flex items-end justify-end font-semibold text-gray-800'>Total :</p>
+      <h2 className="flex items-end justify-end text-gray-800 text-4xl font-bold">Rp. {afterDiscount.toLocaleString()}</h2>
+      <p className='flex items-end justify-end italic text-gray-400 mb-8'>(After Disc.)</p>
+      
    </>
   )
 }

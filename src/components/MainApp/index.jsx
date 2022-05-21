@@ -34,8 +34,13 @@ const MainApp = () => {
   const [amount, setAmount] = useState("")
   const [list, setList] = useState([])
   const [total, setTotal] = useState(0)
+  const [discount, setDiscount] = useState(0)
+  const [afterDiscount, setAfterDiscount] = useState(0)
+  const [discountNominal, setDiscountNominal] = useState(0)
 
   const componentRef = useRef();
+  const today = new Date().toISOString().split('T')[0];
+
 
   return (
     <>
@@ -194,6 +199,7 @@ const MainApp = () => {
                   id="invoiceDate" 
                   placeholder="Enter your Invoice Date" 
                   autoComplete="off" 
+                  min={today}
                   value={invoiceDate} 
                   onChange={(e) => setInvoiceDate(e.target.value)}
                 />
@@ -206,7 +212,8 @@ const MainApp = () => {
                   name="dueDate" 
                   id="dueDate" 
                   placeholder="Enter your Invoice Due Date" 
-                  autoComplete="off" 
+                  autoComplete="off"
+                  min={today}
                   value={dueDate} 
                   onChange={(e) => setDueDate(e.target.value)}
                 />
@@ -227,6 +234,12 @@ const MainApp = () => {
                     list={list}
                     total={total}
                     setTotal={setTotal}
+                    discount={discount}
+                    setDiscount={setDiscount}
+                    afterDiscount={afterDiscount} 
+                    setAfterDiscount={setAfterDiscount} 
+                    discountNominal={discountNominal}
+                    setDiscountNominal={setDiscountNominal}
                   />
                 </article>
 
@@ -272,7 +285,13 @@ const MainApp = () => {
                 list={list} 
                 setList={setList} 
                 total={total} 
-                setTotal={setTotal} />
+                setTotal={setTotal} 
+                discount={discount}
+                setDiscount={setDiscount}
+                afterDiscount={afterDiscount} 
+                setAfterDiscount={setAfterDiscount} 
+                discountNominal={discountNominal}
+                setDiscountNominal={setDiscountNominal} />
                 
                 <Notes notes={notes} />
 

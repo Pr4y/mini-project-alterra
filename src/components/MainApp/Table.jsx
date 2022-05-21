@@ -1,6 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
-function Table({total, list,}) {
+function Table({afterDiscount, list, discount, discountNominal}) {
+  useEffect(() => {
+    if (discountNominal > 0) {
+      
+    }
+  })
   return (
     <div>
         <table width="100%" className='mb-10'>
@@ -27,7 +32,10 @@ function Table({total, list,}) {
        </table>
 
        <div className='flex items-end justify-end font-bold text-4xl'>
-         <h2>Rp.{total.toLocaleString()}</h2>
+         <h2>Rp.{afterDiscount.toLocaleString()}</h2>
+       </div>
+       <div className=' items-end justify-end'>
+       {(discountNominal > 0) ? <p className='italic text-sm text-gray-500'>You Get {discount}% off, worth Rp. {discountNominal.toLocaleString()}</p> : ""}
        </div>
         </div>
   )
