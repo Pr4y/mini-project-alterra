@@ -1,5 +1,8 @@
 import React, { useState, useRef } from "react";
 import ReactToPrint from "react-to-print";
+import { Link } from "react-router-dom";
+import { useQuery } from "@apollo/client";
+import { getClients } from "../../GraphQL/Clients";
 
 
 // Components---------------------------
@@ -23,7 +26,7 @@ const MainApp = () => {
   const [bankHolder, setBankHolder] = useState("")
   const [bankNumber, setBankNumber] = useState("")
   const [clientName, setClientName] = useState("")
-  const [clientAddr, setClientAddr] = useState("")
+  const [clientAddress, setClientAddress] = useState("")
   const [invoiceNumber, setInvoiceNumber] = useState("")
   const [invoiceDate, setInvoiceDate] = useState("")
   const [dueDate, setDueDate] = useState("")
@@ -40,6 +43,15 @@ const MainApp = () => {
 
   const componentRef = useRef();
   const today = new Date().toISOString().split('T')[0];
+  const token = JSON.parse(localStorage.getItem("Token"));
+
+    //Get Client List Query ---------------------------------------------------
+    const { data } = useQuery(getClients, {
+        variables: {
+            id : token.id
+        }
+    })
+
 
 
   return (
@@ -148,7 +160,30 @@ const MainApp = () => {
                 </div>
                 </article>
 
-                <h2 className="font-bold mt-7 border-b-2 pb-4">Your Client's Detail</h2>
+                <div className="flex flex-row mt-7 border-b-2 pb-4">
+                <h2 className="font-bold py-2 px-8">Client's Detail</h2>
+                <Link to="/app/list-client">
+                <button className=" ml-4 bg-blue-500 text-white py-2 px-8 rounded shadow border-2 border-blue-500 
+                hover:bg-transparent hover:text-blue-500 
+                transition-all duration-300">Add New Client</button>
+                </Link>
+                </div>
+
+                <label>Select Client</label>
+                
+                  <select onChange={(e) => {
+                    let selectedData = data?.clientDetail.find(data => data.id === Number(e.target.value)) 
+                    console.log(data.clientDetail)
+                    setClientAddress(selectedData.clientAddress) 
+                    setClientName(selectedData.clientName)
+                    
+                  }}>
+                  {data?.clientDetail.map(client => (
+                  <option value={client.id} key={client.id}>{client.clientName}</option>
+                  ))}
+                </select>
+                
+                
                 <article className="md:grid grid-cols-2 gap-10  md:mt-5">
                 <div className="flex flex-col">
                 <label htmlFor="clientName">Client's Name</label>
@@ -157,22 +192,21 @@ const MainApp = () => {
                   name="clientName" 
                   id="clientName" 
                   placeholder="Enter your client name" 
-                  autoComplete="off" 
                   value={clientName} 
                   onChange={(e) => setClientName(e.target.value)}
                 />
                 </div>
 
                 <div className="flex flex-col">
-                <label htmlFor="clientAddr">Client's Address</label>
-                <input 
+                <label htmlFor="clientAddress">Client's Address</label>
+                <input
                   type="text" 
-                  name="clientAddr" 
-                  id="clientAddr" 
-                  placeholder="Enter your Bank Number" 
+                  name="clientAddress" 
+                  id="clientAddress" 
+                  placeholder="Enter your client address" 
                   autoComplete="off" 
-                  value={clientAddr} 
-                  onChange={(e) => setClientAddr(e.target.value)}
+                  value={clientAddress} 
+                  onChange={(e) => setClientAddress(e.target.value)}
                 />
                 </div>
                 </article>
@@ -270,7 +304,7 @@ const MainApp = () => {
 
                 <ClientDetails 
                 clientName={clientName} 
-                clientAddr={clientAddr} />
+                clientAddress={clientAddress} />
 
                 <Dates 
                 invoiceNumber={invoiceNumber} 

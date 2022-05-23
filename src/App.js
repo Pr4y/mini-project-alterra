@@ -11,7 +11,7 @@ import PrivateRoute from './PrivateRoute';
 import LogOut from "./components/LogOut";
 import About from "./pages/About";
 import NotFound from "./pages/NotFound";
-
+import ListClients from "./pages/ListClients";
 
 
 
@@ -21,6 +21,7 @@ const App = () => {
         <Route path="/" element={<Landing/>}></Route>
         <Route element={<PrivateRoute/>}>
         <Route path="/app" element={<MainApp/>}></Route>
+        <Route path="/app/list-client" element={<ListClients/>}></Route>
         </Route>
         <Route path='/about' element={<About/>}></Route>
         <Route path='/register' element={<Register/>}></Route>
